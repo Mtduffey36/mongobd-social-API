@@ -28,6 +28,15 @@ module.exports = {
         }
     },
 
+    deleteUser: async (req, res) => {
+        try {
+            const updateUser = await User.findByIdAndDelete(req.params.id);
+            res.status(200).json(updateUser);
+        } catch(err) {
+            res.status(500).json(err)
+        }
+    },
+
     addFriend: async (req, res) => {
         try {
             const updateUser = await User.findByIdAndUpdate (req.params.userId,

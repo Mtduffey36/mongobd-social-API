@@ -30,7 +30,7 @@ module.exports = {
 
     addFriend: async (req, res) => {
         try {
-            const addFriend = await User.findByIdAndUpdate (req.params.userId,
+            const updateUser = await User.findByIdAndUpdate (req.params.userId,
                 { $push: { friends: req.params.friendId } },
                 { new: true }
             );

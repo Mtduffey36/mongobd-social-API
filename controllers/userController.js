@@ -1,0 +1,54 @@
+const User = require('../models/user');
+
+module.exports = {
+    getUsers: async (req, res) => {
+        try {
+            const users = await new User.find().populate('friends').populate('thoughts');
+            res.status(200).json(getUsers)
+        } catch(err) {
+            res.status(500).json(err);
+        }
+    },
+
+    createUser: async (req, res) => {
+        try {
+            const newUser = await User.create(req.body);
+            res.status(200).json(createUser);
+        } catch(err) {
+            res.status(500).json(err);
+        }
+    },
+
+    updateUser: async (req, res) => {
+        try {
+            const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            res.status(200).json(updateUser);
+        } catch(err) {
+            res.status(500).json(err);
+        }
+    },
+
+    addFriend: async (req, res) => {
+        try {
+            const addFriend = await User.findByIdAndUpdate (req.params.userId,
+                { $push: { friends: req.params.friendId } },
+                { new: true }
+            );
+            res.status(200).json(updateUser);
+        } catch(err) {
+            res.status(500).json(err)
+        }
+    },
+
+    removeFriend: async (req, res) => {
+        try {
+            const updateUser = await User.findByIdAndUpdate (req.params.userId,
+                { $pull: { friends: req.params.friendId } },
+                { new: true }
+            );
+            res.status(200).json(updateUser);
+        } catch(err) {
+            res.status(500).json(err);
+        }
+    }
+};

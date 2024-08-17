@@ -4,7 +4,7 @@ module.exports = {
     getUsers: async (req, res) => {
         try {
             const users = await new User.find().populate('friends').populate('thoughts');
-            res.status(200).json(getUsers)
+            res.status(200).json(users)
         } catch(err) {
             res.status(500).json(err);
         }
@@ -13,7 +13,7 @@ module.exports = {
     createUser: async (req, res) => {
         try {
             const newUser = await User.create(req.body);
-            res.status(200).json(createUser);
+            res.status(200).json(newUser);
         } catch(err) {
             res.status(500).json(err);
         }

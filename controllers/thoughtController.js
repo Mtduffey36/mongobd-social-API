@@ -1,5 +1,5 @@
-const Thought = require('../models/thought');
-const Though = require('../models/thought');
+const Thought = require('../models/Thought');
+const Though = require('../models/Thought');
 
 module.exports = { getThoughts: async (req,res) =>{
     try {

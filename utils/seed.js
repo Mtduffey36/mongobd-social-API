@@ -1,31 +1,36 @@
+const path = require('path');
 const mongoose = require('mongoose');
-const { User, Thought } = require('../models');
+const { User, Thought } = require('../models'); 
 const { users, thoughts } = require('./data');
-const connection = require('../config/connection');
+require(path.join(__dirname, '../config/connection'));
 
-const seedDatabase = async() => {
-    try {
-        await connection;
-        await User.deleteMany({});
-        await Thought.deleteMany({});
+console.log('Current directory', __dirname);
+console.log('resolved models path: ', require.resolve('../models'))
 
-        const createUsers = await User.insertMany(users);
+const seedDatabase = async () => {
+  try {
+    
+    await User.deleteMany({});
+    await Thought.deleteMany({});
 
-        for (let i = 0; i < thoughts.length; i++) {
-            const thought = thoughts[i];
-            const user = createUsers.find(user => user.username === thought.username);
-            const newThought = await Thought.create({ ...thought, userId: user_id });
+    const createdUsers = await User.insertMany(users);
 
-            await User.findByIdAndUpdate(user._id,
-                { $push: { thoughts:newThought._id } }
-            );
-        }
-        console.log('Database has been seeded!')
-    } catch(err) {
-        console.log(err);
-    } finally {
-        mongoose.connection.close();
+    for (let i = 0; i < thoughts.length; i++) {
+      const thought = thoughts[i];
+      const user = createdUsers.find(user => user.username === thought.username);
+
+      const newThought = await Thought.create({ ...thought, userId: user._id });
+      
+      await User.findByIdAndUpdate(user._id, { $push: { thoughts: newThought._id } });
     }
+
+    console.log('Database seeded successfully');
+  } catch (err) {
+    console.error(err);
+  } finally {
+    mongoose.connection.close();
+  }
 };
+
 
 seedDatabase();

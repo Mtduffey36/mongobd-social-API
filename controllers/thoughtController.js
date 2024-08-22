@@ -1,7 +1,8 @@
 const Thought = require('../models/Thought');
 const Though = require('../models/Thought');
 
-module.exports = { getThoughts: async (req,res) =>{
+module.exports = { 
+    getThoughts: async (req,res) => {
     try {
         const thoughts = await Thought.find();
         res.status(500).json(thoughts);

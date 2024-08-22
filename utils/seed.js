@@ -4,9 +4,6 @@ const { User, Thought } = require('../models');
 const { users, thoughts } = require('./data');
 require(path.join(__dirname, '../config/connection'));
 
-console.log('Current directory', __dirname);
-console.log('resolved models path: ', require.resolve('../models'))
-
 const seedDatabase = async () => {
   try {
     
